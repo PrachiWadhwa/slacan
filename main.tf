@@ -17,16 +17,16 @@ resource "newrelic_service_level" "myservicelevelteraf" {
     dynamic "good_events" {
       for_each = length(try([for e in [each.value.from, each.value.where] : e if e != ""], [])) > 0 ? [1] : []
       content {
-        from = try(each.value.from, each.value.from_bad)
-        where = try(each.value.where, each.value.where_bad)
+        from = each.value.from
+        where = each.value.where
       }
     }
 
     dynamic "bad_events" {
       for_each = length(try([for e in [each.value.from_bad, each.value.where_bad] : e if e != ""], [])) > 0 ? [1] : []
       content {
-        from = try(each.value.from_bad, each.value.from)
-        where = try(each.value.where_bad, each.value.where)
+        from =each.value.from_bad
+        where = each.value.where_bad
       }
     }
   }
